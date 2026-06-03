@@ -79,6 +79,7 @@ const IPTV_SOURCES = process.env.IPTV_SOURCES || process.env.NEXT_PUBLIC_IPTV_SO
 const MERGE_SOURCES = process.env.MERGE_SOURCES || process.env.NEXT_PUBLIC_MERGE_SOURCES || '';
 const DANMAKU_API_URL = process.env.DANMAKU_API_URL || process.env.NEXT_PUBLIC_DANMAKU_API_URL || '';
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+const MANAGED_AUTH_ENABLED = process.env.MANAGED_AUTH_ENABLED === 'true';
 
 const effectiveAdminPassword = ADMIN_PASSWORD || ACCESS_PASSWORD;
 
@@ -99,6 +100,9 @@ function getRedisClient(): Redis | null {
 }
 
 function isManagedAuthEnabled(): boolean {
+  if (MANAGED_AUTH_ENABLED) {
+    return true;
+  }
   return !!AUTH_SECRET && !!getRedisClient();
 }
 
